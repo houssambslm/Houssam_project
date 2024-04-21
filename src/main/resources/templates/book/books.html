@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="menu">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Groups</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+
+
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="p-3">
+            <div class="card">
+
+                <!--        #################################################################################        -->
+
+                <div class="card-header">Liste Des Group</div>
+                <form method="get"  th:action="@{indexGroups}">
+                    <input type="text" placeholder="Entrer Nom Du Group" name="searchName" th:value="${searchName}">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                    <a  style="text-decoration: none" class="btn btn-primary" th:href="@{/createGroups}" >+ Add Groups</a>
+                </form>
+
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Matricule</th>
+                                <th>Nbr Etudiant</th>
+                                <th>Nbr Cours</th>
+                                <th colspan="2" style="width: 15%" ></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  th:each="s:${pageGroupsAll}">
+                                <td th:text="${s.id}"></td>
+                                <td th:text="${s.nom}"></td>
+                                <td th:text="${s.matricule}"></td>
+                                <td th:text="${s.etudiants.size()}"></td>
+                                <td th:text="${s.cours.size()}"></td>
+                                <td >
+                                    <a class="btn btn-danger"  th:href="@{deleteGroups(page=${currentPage}, size=${size}, search=${searchName}, id=${s.id})}"> Delete </a>
+                                </td>
+                                <td >
+                                    <a class="btn btn-outline-dark" th:href="@{editGroups(page=${currentPage}, size=${size}, search=${searchName}, id=${s.id})}"> Edit </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="container">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item me-2"
+                                th:each="p:${pagesGroups}" >
+                                <a th:text="${p+1}"
+                                   th:class="${p==currentPage? 'btn btn-primary' : 'btn btn-outline-primary'}"
+                                   th:href="@{/indexGroups(page=${p}, size=${size}, search=${searchName})}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+<!--                &lt;!&ndash;        #################################################################################        &ndash;&gt;-->
+
+
+<!--                <div class="card-header">Liste Des Group et Library</div>-->
+<!--                <form method="get", th:action="@{indexGroups}">-->
+<!--                    <input type="text" placeholder="Entrer Titre Du Library" name="searchCour" th:value="${searchCour}">-->
+<!--                    <button class="btn btn-primary" type="submit">Search</button>-->
+<!--                </form>-->
+
+<!--                <div class="card-body">-->
+<!--                    <table class="table">-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                <th>Id</th>-->
+<!--                                <th>Titre</th>-->
+<!--                                <th>Description</th>-->
+<!--                                <th>Group</th>-->
+<!--                                <th colspan="2" style="width: 15%" ></th>-->
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                            <tr th:each="s:${pageGroupsCours}"  >-->
+<!--                                <td th:text="${s.id}"></td>-->
+<!--                                <td th:text="${s.Titre}"></td>-->
+<!--                                <td th:text="${s.description}"></td>-->
+<!--                                <td th:text ="${s.groups != null} ? ${s.groups.getNom()} : 'Null' "></td>-->
+
+<!--                                <td >-->
+<!--                                    <a class="btn btn-danger"  th:href="@{deleteGroups(page=${currentPage}, size=${size}, search=${searchGroup}, id=${s.id})}"> Delete </a>-->
+<!--                                </td>-->
+<!--                                <td >-->
+<!--                                    <a class="btn btn-outline-dark" th:href="@{deleteGroups(page=${currentPage}, size=${size}, search=${searchGroup}, id=${s.id})}"> Edit </a>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                    <div class="container">-->
+<!--                        <ul class="nav nav-pills">-->
+<!--                            <li class="nav-item me-2"-->
+<!--                                th:each="p:${pagesCours}" >-->
+<!--                                <a th:text="${p+1}"-->
+<!--                                   th:class="${p==currentPage? 'btn btn-primary' : 'btn btn-outline-primary'}"-->
+<!--                                   th:href="@{/indexGroups(page=${p}, size=${size}, search=${searchCour})}"></a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+
+<!--                &lt;!&ndash;        #################################################################################        &ndash;&gt;-->
+
+
+<!--                <div class="card-header">Liste Des Group et Member</div>-->
+<!--                <form method="get", th:action="@{indexGroups}">-->
+<!--                    <input type="text" placeholder="Entrer Nom D'Member" name="searchEtudiant" th:value="${searchEtudiant}">-->
+<!--                    <button class="btn btn-primary" type="submit">Search</button>-->
+<!--                </form>-->
+
+<!--                <div class="card-body">-->
+<!--                    <table class="table">-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                <th>Id</th>-->
+<!--                                <th>Nom Group</th>-->
+<!--                                <th>Member</th>-->
+<!--                                <th>Matricule-Member</th>-->
+<!--                                <th colspan="2" style="width: 15%" ></th>-->
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                                <tr th:each="s:${pageGroupsEtudiant}"  >-->
+<!--                                    <td th:text="${s.id}"></td>-->
+<!--                                    <td th:text="${s.nom}"></td>-->
+<!--                                    <td th:text="${s.matricule}"></td>-->
+<!--                                    <td th:text ="${s.groups != null} ? ${s.groups.getNom()} : 'Null' "></td>-->
+<!--                                    <td >-->
+<!--                                        <a class="btn btn-danger"  th:href="@{deleteGroups(page=${currentPage}, size=${size}, search=${searchGroup}, id=${s.id})}"> Delete </a>-->
+<!--                                    </td>-->
+<!--                                    <td >-->
+<!--                                        <a class="btn btn-outline-dark" th:href="@{deleteGroups(page=${currentPage}, size=${size}, search=${searchGroup}, id=${s.id})}"> Edit </a>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                    <div class="container">-->
+<!--                        <ul class="nav nav-pills">-->
+<!--                            <li class="nav-item me-2"-->
+<!--                                th:each="t:${pagesEtudiant}" >-->
+<!--                                <a th:text="${t+1}"-->
+<!--                                   th:class="${t==currentPage? 'btn btn-primary' : 'btn btn-outline-primary'}"-->
+<!--                                   th:href="@{/indexGroups(page=${t}, size=${size}, search=${searchEtudiant})}"></a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

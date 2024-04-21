@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="menu">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Group</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <style>
+        .div {
+            display: none;
+        }
+
+        .dropbtn {
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+        }
+
+        #myInput {
+            box-sizing: border-box;
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 3px 5px 3px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #myInput:focus {
+            outline: 4px solid #f2f2f2;
+            border-color: #171313;
+        }
+
+        .myInput {
+            box-sizing: border-box;
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 3px 5px 3px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .myInput:focus {
+            outline: 4px solid #f2f2f2;
+            border-color: #171313;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            max-height: 215px;
+            display: none;
+            position: absolute;
+            background-color: #f6f6f6;
+            min-width: 230px;
+            overflow-y: scroll;
+            border: none;
+            z-index: 1;
+            border-radius: 25px;
+        }
+
+        .dropdown-content label {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown label:hover {
+            background-color: #ddd;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="p-3">
+            <div class="card">
+                <div class="card-header">
+
+                    <form method="post" th:action="@{saveGroups}">
+                        <input id ="id" type="hidden" name="id" th:value="${GroupsEdit.id}">
+                        <input   type="hidden" name="currentPage" th:value="${currentPage}">
+                        <input   type="hidden" name="size" th:value="${size}">
+                        <input  type="hidden" name="searchName" th:value="${searchName}">
+
+                        <div class="card-header">
+                            <h3 class="d-inline">Edit Group &nbsp;&nbsp;</h3>
+                            <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for ="Nom">Nom : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <input id ="Nom" type="text" name="Nom" placeholder="Nom Group" th:value="${GroupsEdit.nom}">
+                        </div>
+                        <div class="mb-3">
+                            <label for ="matricule">Matricule : </label>
+                            <input id ="matricule" type="text" placeholder="Matricule Group" name="matricule" th:value="${GroupsEdit.matricule}">
+                        </div>
+                    </form>
+                </div>
+                <!-- ######################### Member  ######################### -->
+
+                <div class="card-header">
+
+                    <form class="formGroup" method="Get" th:action="@{AjouteEtudiantGroup}">
+
+                        <input id ="idGroup2" type="hidden" name="id" th:value="${GroupsEdit.id}">
+                        <input   type="hidden" name="currentPage" th:value="${currentPage}">
+                        <input   type="hidden" name="size" th:value="${size}">
+                        <input  type="hidden" name="searchName" th:value="${searchName}">
+                        <input  type="hidden" name="action" th:value="EditController">
+
+                        <label for="myInput1">Sélectionnez Etudiant que vous souhaitez Ajouter : &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input autocomplete="off" type="text" class="dropbtn myInput" name="idEtudiantAjouter" placeholder="Nom Etudiant" id="myInput1" onInput="filterFunction()" list="idEtudiantAjouter"   >
+
+                        <datalist  id="idEtudiantAjouter" class="dropdown-content myDropdown">
+                            <option  th:each="s:${AllEtudiant}" th:value="${s.nom != null} ? ${s.getId()} : '-1' " th:text ="${s.nom != null} ? ${s.getNom()} : 'Null' "></option>
+                        </datalist>
+
+                        <button class="btn btn-primary" type="submit">Ajouter</button>
+
+                    </form>
+
+                    <br>
+
+                    <form class="formGroup" method="Get" th:action="@{DeleteEtudiantGroup}">
+
+                        <input id ="idGroup3" type="hidden" name="id" th:value="${GroupsEdit.id}">
+                        <input   type="hidden" name="currentPage" th:value="${currentPage}">
+                        <input   type="hidden" name="size" th:value="${size}">
+                        <input  type="hidden" name="searchName" th:value="${searchName}">
+                        <input  type="hidden" name="action" th:value="EditController">
+
+                        <label for="myInput2">Sélectionnez Etudiant que vous souhaitez supprimer : </label>
+                        <input autocomplete="off" type="text" class="dropbtn myInput" name="idEtudiantSupprimer" placeholder="Nom Etudiant" id="myInput2" onInput="filterFunction(this)" list="idEtudiantSupprimer"   >
+
+                        <datalist  id="idEtudiantSupprimer" class="dropdown-content myDropdown">
+                            <option  th:each="s:${ListEtudiant}" th:value="${s.nom != null} ? ${s.getId()} : '-1' " th:text ="${s.nom != null} ? ${s.getNom()} : 'Null' "></option>
+                        </datalist>
+
+                        <button class="btn btn-primary" type="submit">Delete</button>
+
+                    </form>
+
+                </div>
+                <!-- ######################### Library ######################### -->
+                <div class="card-header">
+
+                    <form class="formGroup"  method="Get" th:action="@{AjouteCoursGroup}">
+
+                        <input id ="idGroup4" type="hidden" name="id" th:value="${GroupsEdit.id}">
+                        <input   type="hidden" name="currentPage" th:value="${currentPage}">
+                        <input   type="hidden" name="size" th:value="${size}">
+                        <input  type="hidden" name="searchName" th:value="${searchName}">
+                        <input  type="hidden" name="action" th:value="EditController">
+
+                        <label for="myInput3">Sélectionnez &nbsp; Cours &nbsp; que vous souhaitez Ajouter : &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input autocomplete="off" type="text" class="dropbtn myInput" name="idCoursAjouter" placeholder="Nom Cours" id="myInput3" onInput="filterFunction(this)" list="idCoursAjouter"   >
+
+                        <datalist  id="idCoursAjouter" class="dropdown-content myDropdown">
+                            <option  th:each="s:${AllCours}" th:value="${s.Titre != null} ? ${s.id} : '-1' " th:text ="${s.Titre != null} ? ${s.Titre} : 'Null' " ></option>
+                        </datalist>
+
+                        <button class="btn btn-primary" type="submit">Ajouter</button>
+                    </form>
+
+                    <br>
+
+                    <form class="formGroup"  method="Get" th:action="@{DeleteCoursGroup}">
+                        <input id ="idGroup5" type="hidden" name="id" th:value="${GroupsEdit.id}">
+                        <input   type="hidden" name="currentPage" th:value="${currentPage}">
+                        <input   type="hidden" name="size" th:value="${size}">
+                        <input  type="hidden" name="searchName" th:value="${searchName}">
+                        <input  type="hidden" name="action" th:value="EditController">
+
+                        <label for="myInput4">Sélectionnez &nbsp; Cours &nbsp; que vous souhaitez supprimer :</label>
+                        <input autocomplete="off" type="text" class="dropbtn myInput" name="idCoursSupprimer" placeholder="Nom Cours" id="myInput4" onInput="filterFunction(this)" onclick="check(this)" list="idCoursSupprimer"   >
+
+                        <datalist  id="idCoursSupprimer" class="dropdown-content myDropdown">
+                            <option th:each="s:${ListCours}" th:value="${s.Titre != null} ? ${s.id} : '-1' " th:text ="${s.Titre != null} ? ${s.Titre} : 'Null' " ></option>
+                        </datalist>
+
+                        <button class="btn btn-primary" type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function check() {
+            console.log(this)
+        }
+
+        function filterFunction() {
+            let isInputAvail = false;
+            var input, form , filter, ul, li, a, i;
+            // console.log(this)
+            //
+            // form = this.parentNode;
+            // // input = form.getElementsByClassName("dropbtn");
+            // console.log("form")
+            // console.log(form)
+            // console.log(form)
+            // console.log(input)
+            // filter = input.value.toLowerCase();
+            // console.log(filter)
+            // var title =  document.getElementsByClassName("myDropdown")
+            //
+            // if (filter.length > 0) {
+            //     $(title).add("show");
+            // } else {
+            //     $(title).remove("show");
+            // }
+
+        //     var datalist = document.getElementsByClassName("myDropdown");
+        //     console.log("datalist : ")
+        //     console.log(datalist)
+        //
+        //     option = datalist.getElementsByTagName("option");
+        //     for (i = 0; i < a.length; i++) {
+        //         txtValue = a[i].innerText;
+        //     if (txtValue.toLowerCase().indexOf(filter) > -1) {
+        //         isInputAvail = true;
+        //         a[i].style.display = "block";
+        //     } else {
+        //         a[i].style.display = "none";
+        //         }
+        //     }
+        //     if (!isInputAvail) {
+        //         document.getElementById("noMatches").classList.add('show');
+        //     } else {
+        //         document.getElementById("noMatches").classList.remove('show');
+        //     }
+        // }
+
+        // function filterFunction() {
+        //     let isInputAvail = false;
+        //     var input, filter, ul, li, a, i;
+        //     input = document.getElementById("myInput");
+        //     filter = input.value.toLowerCase();
+        //     if (filter.length > 0) {
+        //         document.getElementById("myDropdown").classList.add("show");
+        //     } else {
+        //         document.getElementById("myDropdown").classList.remove("show");
+        //     }
+        //     div = document.getElementById("myDropdown");
+        //     a = div.getElementsByTagName("a");
+        //     for (i = 0; i < a.length; i++) {
+        //         txtValue = a[i].innerText;
+        //         if (txtValue.toLowerCase().indexOf(filter) > -1) {
+        //             isInputAvail = true;
+        //             a[i].style.display = "block";
+        //         } else {
+        //             a[i].style.display = "none";
+        //         }
+        //     }
+        //     if (!isInputAvail) {
+        //         document.getElementById("noMatches").classList.add('show');
+        //     } else {
+        //         document.getElementById("noMatches").classList.remove('show');
+        //     }
+        }
+
+    </script>
+
+</body>
+</html>

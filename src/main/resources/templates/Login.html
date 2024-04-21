@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Sign In</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+
+
+</head>
+<body>
+<section class="ftco-section" style="padding:0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"></h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="wrap">
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4">Sign In</h3>
+                            </div>
+                        </div>
+                        <p th:if="${param.error}" class="error">Wrong email or password</p>
+                        <form method="get" th:action="@{/LoginMember}" class="signin-form">
+                            <div class="form-group mt-3">
+                                <input id="email" type="text" class="form-control" name="email" required  >
+                                <label class="form-control-placeholder" for="email" >Name</label>
+                            </div>
+                            <div class="form-group">
+                                <input id="password-field" type="password" class="form-control" name="password" required  >
+                                <label class="form-control-placeholder" for="password-field">Password</label>
+                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+                            </div>
+                            <div class="form-group d-md-flex">
+                                <div class="w-50 text-left">
+
+                                </div>
+                                <div class="w-50 text-md-right">
+                                    <a href="Register">Forgot Password</a>
+                                </div>
+                            </div>
+
+                            <p class="text-danger" th:text="${message != null} ? ${message} : null" ></p>
+
+                        </form>
+                        <p class="text-center">Not a member? <a  th:href="@{Register}">&nbsp;&nbsp;&nbsp;Sign Up</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="/js/popper.js" th:src="@{/js/popper.js}"></script>
+<script src="/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="/js/main.js" th:src="@{/js/main.js}"></script>
+
+</body>
+</html>

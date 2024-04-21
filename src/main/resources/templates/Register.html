@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Sign Up</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+
+</head>
+<body>
+<section layout:fragment="content" class="ftco-section" style="padding: 0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"></h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="wrap">
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4">Sign Up</h3>
+                            </div>
+                        </div>
+                        <form method="post"  th:action="@{/RegisterMember}" class="signin-form">
+                            <div class="form-group mt-3">
+                                <input required id="email" placeholder="email" type="email" class="form-control" name="email" >
+                            </div>
+                            <div class="form-group mt-3">
+                                <input required id="nom" type="text" class="form-control" name="nom" >
+                                <label class="form-control-placeholder" for="nom">Nom</label>
+                            </div>
+                            <div class="form-group">
+                                <input required id="password-field-Register" type="password" class="form-control" name="password" >
+                                <label class="form-control-placeholder" for="password-field-Register">Password</label>
+                                <span toggle="#password-field-Register" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <input required id="password-Confirmation-field-Register" type="password" class="form-control" name="passwordConfirmation" >
+                                <label class="form-control-placeholder" for="password-Confirmation-field-Register">Password Confirmation</label>
+                                <span toggle="#password-Confirmation-field-Register" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign Up</button>
+                            </div>
+                            <p class="text-danger" th:text="${message != null} ? ${message} : null" ></p>
+                        </form>
+                        <p class="text-center">Already have an account ? <a th:href="@{/login}">&nbsp;&nbsp;&nbsp;Sign In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="/js/popper.js" th:src="@{/js/popper.js}"></script>
+<script src="/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="/js/main.js" th:src="@{/js/main.js}"></script>
+
+</body>
+</html>
+
